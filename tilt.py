@@ -18,6 +18,15 @@ TILTS = {
     'a495bb80c5b14b44b5121370f02d74de': 'Pink',
 }
 
+class Tilt:
+
+    def __init__(self, uuid, color, timestamp, temp, gravity):
+        self.uuid = uuid
+        self.color = color
+        self.timestamp = timestamp
+        self.temp = temp
+        self.gravity = gravity
+
 
 def distinct(objects):
     seen = set()
@@ -38,18 +47,19 @@ def monitor_tilt():
     results = []
     for beacon in beacons:
         if beacon['uuid'] in TILTS.keys():
-            results.append({
-                'color': TILTS[beacon['uuid']],
-                'timestamp': datetime.datetime.now().isoformat(),
-                'temp': beacon['major'],
-                'gravity': beacon['minor']
-            })
+            results.append(Tilt(
+                beacon['uuid'],
+                TILTS[beacon['uuid']],
+                datetime.datetime.now().isoformat(),
+                beacon['major'],
+                beacon['minor']
+            ))
     return results
 
 
-def init(tilt_id):
+def init(bt_id):
     try:
-        sock = bluez.hci_open_dev(tilt_id)
+        sock = bluez.hci_open_dev(bt_id)
     except:
         print('error accessing bluetooth device...')
         sys.exit(1)
@@ -60,4 +70,6 @@ def init(tilt_id):
 if __name__ == '__main__':
     dev_id = 0
     init(dev_id)
-    monitor_tilt()
+    results = monitor_tilt()
+    for tilt in results:
+        print("[{}] SG: {} Temp: {} @ {}".format(tilt.color, tilt.gravity, tilt.temp, tilt.timestamp))
