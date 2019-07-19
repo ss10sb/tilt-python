@@ -1,3 +1,5 @@
+## Incomplete - never got to work with ble correctly
+
 ### Requirements
 
 ##### Pip
