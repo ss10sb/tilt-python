@@ -1,3 +1,5 @@
+bluetool==0.2.3
+gattlib==0.20150805
 luma.core==1.10.1
 luma.oled==3.2.1
 monotonic==1.5
@@ -8,4 +10,3 @@ RPi.GPIO==0.6.5
 smbus2==0.2.3
 spidev==3.4
 tcpbridge==1.1.1
-pybluez[ble]==
